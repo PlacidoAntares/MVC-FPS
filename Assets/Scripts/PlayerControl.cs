@@ -11,7 +11,7 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         playerData = Player.GetComponent<PlayerData>();
-        playerData.controller = playerData.playerObj.GetComponent<CharacterController>();
+        playerData.controller = Player.GetComponent<CharacterController>();
         if (playerData.lockCursor)
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -25,6 +25,8 @@ public class PlayerControl : MonoBehaviour
         UpdateMouseLook();
         PlayerMovement();
         Jump();
+        WeaponControl();
+        
     }
 
     void UpdateMouseLook()
@@ -63,5 +65,62 @@ public class PlayerControl : MonoBehaviour
             playerData.velocity.y += playerData.velocityY;
 
         }
+    }
+
+    void WeaponControl()
+    {
+        if (Input.GetMouseButtonDown(0) && playerData.readyToFire == true)
+        {
+            FireWeapon();
+        }
+    }
+    void FireWeapon()
+    {
+        if (playerData.readyToFire == false)
+        {
+            return;
+        }
+        //
+        Debug.Log("Firing Weapon");
+        Shooting();
+        //ShotEffect();
+        //
+        StartCoroutine(StartWeaponCD());
+    }
+
+    void Shooting()
+    {
+        Vector3 rayOrigin = playerData.fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+        if(Physics.Raycast(rayOrigin,playerData.fpsCam.transform.forward,out playerData.hit,playerData.weaponRange))
+        {
+            //playerData.laserLine.SetPosition(0, playerData.gunBarrel.transform.position);
+            //playerData.laserLine.SetPosition(1,playerData.hit.point);
+            if (playerData.hit.collider.gameObject.CompareTag("Enemy"))
+            {
+                Debug.Log("Enemy Hit");
+                playerData.targetData = playerData.hit.collider.gameObject.GetComponent<EnemyData>();
+                if (playerData.targetData.health > playerData.targetData.hpThreshold && playerData.targetData.logicID != 1)
+                {
+                    playerData.targetData.logicID = 1;
+                    Debug.Log(playerData.hit.collider.gameObject.name + "is now pursuing");
+                }
+               
+                playerData.targetData.health -= playerData.gunDamage;
+            }
+        }
+
+    }
+
+    // private IEnumerator ShotEffect()
+    //{
+        //playerData.laserLine.enabled = true;
+        //yield return playerData.shotDuration;
+        //playerData.laserLine.enabled = false;
+    //}
+    private IEnumerator StartWeaponCD()
+    {
+        playerData.readyToFire = false;
+        yield return new WaitForSeconds(playerData.weaponCD);
+        playerData.readyToFire = true;
     }
 }

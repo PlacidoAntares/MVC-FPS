@@ -6,6 +6,7 @@ TagManager:
   tags:
   - EDC
   - hide
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -16,6 +16,14 @@ public class EnemyData : MonoBehaviour
     public float visDist = 20.0f;
     public float visAngle = 30.0f;
     public float detectRange = 10.0f;
+    public bool rotateClockwise;
+
+    public float rotateAngleAmt;
+    public float rotateDur;
+    public Quaternion newRoT;
+    public Quaternion reverseRoT;
+    //
+
     //
     private void Start()
     {
@@ -23,8 +31,9 @@ public class EnemyData : MonoBehaviour
         EDC = GameObject.FindGameObjectWithTag("EDC").GetComponent<EnemyDataContainer>();
         EDC.enemies.Add(this.gameObject);
         EDC.enemyData.Add(this);
+        newRoT =Quaternion.Euler(new Vector3(0,rotateAngleAmt,0));
+        reverseRoT = Quaternion.Euler(new Vector3(0, 0, 0));
     }
-
 
     public void Seek(Vector3 location, NavMeshAgent agent)
     {
@@ -102,10 +111,43 @@ public class EnemyData : MonoBehaviour
         Seek(info.point + chosenDir.normalized * 5,agent);
     }
 
+    public void Scan(GameObject thisObj,Quaternion newRoT,Quaternion reverseRoT,float rotDur)
+    {
+            
+        rotateObject(thisObj, newRoT, rotDur);
+        RotateDur(rotDur);
+        reverseRotation(thisObj, reverseRoT, rotDur);
+    }
+
+    IEnumerator RotateDur(float rotateDur)
+    {
+        yield return new WaitForSeconds(rotateDur);
+    }
+    void rotateObject(GameObject objToRotate, Quaternion newRoT, float duration)
+    {
+        Quaternion currentRoT = objToRotate.transform.rotation;
+        float counter = 0;
+        if (counter < duration)
+        {
+            counter += Time.deltaTime;
+            objToRotate.transform.rotation = Quaternion.Lerp(currentRoT, newRoT, counter / duration);
+        }
+    }
+    
+    void reverseRotation(GameObject objToRotate, Quaternion newRoT, float duration)
+    {
+        Quaternion currentRoT = objToRotate.transform.rotation;
+        float counter = 0;
+        if (counter < duration)
+        {
+            counter += Time.deltaTime;
+            objToRotate.transform.rotation = Quaternion.Lerp(currentRoT, newRoT, counter / duration);
+        }
+    }
     public bool CanSeeTarget(GameObject target,GameObject thisObj)
     {
         Vector3 direction = target.transform.position - thisObj.transform.position;
-        float angle = Vector3.Angle(direction,this.transform.forward);
+        float angle = Vector3.Angle(direction,thisObj.transform.forward);
         if (direction.magnitude < visDist && angle < visAngle)
         {
             direction.y = 0;
@@ -114,7 +156,7 @@ public class EnemyData : MonoBehaviour
                 return true;
             }
             else
-            {
+            { 
                 return false;
             }
         }

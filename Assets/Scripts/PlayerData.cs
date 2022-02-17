@@ -17,9 +17,25 @@ public class PlayerData : MonoBehaviour
     public float jumpMagnitude;
     public CharacterController controller = null;
     public Vector3 velocity;
-
+    //
+    public Transform gunBarrel;
+    public float gunDamage;
+    [HideInInspector] public GameObject target;
+    [HideInInspector] public EnemyData targetData;
+    public int weaponRange;
+    public Camera fpsCam;
+    public float weaponCD;
+    public bool readyToFire;
+    [HideInInspector] public WaitForSeconds shotDuration = new WaitForSeconds(0.007f);
+    [HideInInspector] public LineRenderer laserLine;
+    [HideInInspector] public RaycastHit hit;
     private void Start()
     {
+        laserLine = fpsCam.gameObject.GetComponentInChildren<LineRenderer>();
+        laserLine.enabled = false;
+        //Debug.Log(laserLine);
+        readyToFire = true;
+        playerObj = this.gameObject.transform;
         controller = GetComponent<CharacterController>();
     }
 }

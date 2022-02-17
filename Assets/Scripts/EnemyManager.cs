@@ -33,27 +33,20 @@ public class EnemyManager : MonoBehaviour
                 switch (EDC.enemyData[i].logicID)
                 {
                     case 0:
-                        Debug.Log(EDC.enemies[i] + "is Idle");
+                        //Debug.Log(EDC.enemies[i] + "is Idle");
                         //Idle
+                        EDC.enemyData[i].Scan(EDC.enemies[i], EDC.enemyData[i].newRoT,EDC.enemyData[i].reverseRoT ,EDC.enemyData[i].rotateDur);
                         break;
                     case 1:
-                        Debug.Log(EDC.enemies[i] + "is pursuing");
+                        //Debug.Log(EDC.enemies[i] + "is pursuing");
                         EDC.enemyData[i].Pursue(target, EDC.enemies[i], EDC.enemyData[i].moveSpeed, playerControl.playerData.walkSpeed,EDC.enemyData[i].agent,playerControl);
                         break;
                     case 2:
-                        Debug.Log(EDC.enemies[i] + "is Fleeing");
-                        EDC.enemyData[i].Flee(target.transform.position, EDC.enemyData[i].agent);
-                        break;
-                    case 3:
-                        Debug.Log(EDC.enemies[i] + "is Evading");
-                        EDC.enemyData[i].Evade(target,EDC.enemies[i], EDC.enemyData[i].moveSpeed, playerControl.playerData.walkSpeed, EDC.enemyData[i].agent, playerControl);
-                        break;
-                    case 4:
-                        Debug.Log(EDC.enemies[i] + "is Wandering");
+                        //Debug.Log(EDC.enemies[i] + "is Wandering");
                         EDC.enemyData[i].Wander(EDC.enemies[i], EDC.enemyData[i].agent);
                         break;
-                    case 5:
-                        Debug.Log(EDC.enemies[i] + "is Hiding");
+                    case 3:
+                        //Debug.Log(EDC.enemies[i] + "is Hiding");
                         EDC.enemyData[i].Hide(target, EDC.enemies[i], EDC.enemyData[i].agent);                   
                         break;
                 }
@@ -64,6 +57,16 @@ public class EnemyManager : MonoBehaviour
        
     }
 
+    void ManageEnemyBehavior()
+    {
+        for (int i = 0; i < EDC.enemies.Count; i++)
+        {
+            if (EDC.enemyData[i] != null)
+            {
+                
+            }
+        }
+    }
     void ManageEnemyHP()
     {
         
@@ -77,30 +80,15 @@ public class EnemyManager : MonoBehaviour
                 EDC.enemyCount--;
             }
 
-            if (enemyData.health <= enemyData.hpThreshold && enemyData.health > 0)
+            else if (enemyData.health > 0 && enemyData.health <= enemyData.hpThreshold)
             {
-                if (enemyData.CanSeeTarget(target, enemy) == true)
-                {
-                    enemyData.logicID = 5;
-                }
-                else if (enemyData.CanSeeTarget(target, enemy) == false)
-                {
-                    enemyData.logicID = 0;
-                }
+                enemyData.logicID = 3;
             }
-
-            if (enemyData.health > enemyData.hpThreshold)
+            else if (enemyData.health > enemyData.hpThreshold)
             {
-                if (enemyData.CanSeeTarget(target, enemy) == true)
-                {
-                    enemyData.logicID = 1;
-                }
-                else if (enemyData.CanSeeTarget(target, enemy) == false)
-                {
-                
-                    enemyData.logicID = 4;
-                }
+                ManageEnemyBehavior(); 
             }
+             
         }
 
         foreach (GameObject enemy in EDC.removeEnemies)

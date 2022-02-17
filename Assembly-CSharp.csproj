@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{6CC92EE2-C97E-2137-C111-F092707B90B5}</ProjectGuid>
+    <ProjectGuid>{66916A4F-B41E-2AE2-AE61-651AB3A28846}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -54,13 +54,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\PlayerControl.cs" />
+    <Compile Include="Assets\Scripts\PlayerData.cs" />
     <Compile Include="Assets\Scripts\EnemyDataContainer.cs" />
     <Compile Include="Assets\Scripts\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\EnemyData.cs" />
     <Compile Include="Assets\Scripts\EnemySpawner.cs" />
     <Compile Include="Assets\Desert Environment\Example\AutoMoveAndRotate.cs" />
     <Compile Include="Assets\Scripts\WorldData.cs" />
-    <Compile Include="Assets\Scripts\PlayerData.cs" />
+    <Compile Include="Assets\Scripts\ProjectileScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Desert Environment\Models\Shaders\WindShader.shader" />
@@ -675,7 +676,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{C8174696-6B8F-0787-1C0A-31F551090F14}</Project>
+      <Project>{BCB82BB0-0755-C268-5DDB-60ADEFBBCB8A}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

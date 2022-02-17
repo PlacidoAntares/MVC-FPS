@@ -92,13 +92,12 @@ GameObject:
   - component: {fileID: 6779913154552031735}
   - component: {fileID: 6779913154552031734}
   - component: {fileID: 6779913154552031625}
-  - component: {fileID: 6779913154552031624}
-  - component: {fileID: 6779913154552031627}
   - component: {fileID: 6779913154552031732}
   - component: {fileID: 6779913154552031733}
+  - component: {fileID: 7104582226205805721}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,7 +110,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6779913154552031626}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.3624687, y: 3.33, z: -13.071603}
+  m_LocalPosition: {x: 3.8198407, y: 1.58, z: 7.701811}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8592345981006251518}
@@ -167,36 +166,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &6779913154552031624
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6779913154552031626}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &6779913154552031627
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6779913154552031626}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!195 &6779913154552031732
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -237,5 +206,28 @@ MonoBehaviour:
   currentDestination: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   EDC: {fileID: 0}
-  logicID: 4
+  logicID: 0
   targetloc: {x: 0, y: 0, z: 0}
+  rotationSpeed: 10
+  visDist: 20
+  visAngle: 30
+  detectRange: 10
+  rotateClockwise: 0
+  rotateAngleAmt: 90
+  rotateDur: 5
+  newRoT: {x: 0, y: 0, z: 0, w: 0}
+  reverseRoT: {x: 0, y: 0, z: 0, w: 0}
+--- !u!136 &7104582226205805721
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6779913154552031626}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.63
+  m_Height: 2.63
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
