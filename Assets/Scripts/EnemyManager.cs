@@ -34,16 +34,18 @@ public class EnemyManager : MonoBehaviour
                 {
                     case 0:
                         //Debug.Log(EDC.enemies[i] + "is Idle");
+                        EDC.enemyData[i].isRotating = true;
+                        StartCoroutine(Scanning(EDC.enemyData[i], EDC.enemies[i]));
                         //Idle
-                        EDC.enemyData[i].Scan(EDC.enemies[i], EDC.enemyData[i].newRoT,EDC.enemyData[i].reverseRoT ,EDC.enemyData[i].rotateDur);
                         break;
                     case 1:
-                        //Debug.Log(EDC.enemies[i] + "is pursuing");
-                        EDC.enemyData[i].Pursue(target, EDC.enemies[i], EDC.enemyData[i].moveSpeed, playerControl.playerData.walkSpeed,EDC.enemyData[i].agent,playerControl);
+                        //Debug.Log(EDC.enemies[i] + "is Wandering");
+                        //EDC.enemyData[i].Wander(EDC.enemies[i], EDC.enemyData[i].agent);
+                        StartCoroutine(Wandering(EDC.enemyData[i], EDC.enemies[i]));
                         break;
                     case 2:
-                        //Debug.Log(EDC.enemies[i] + "is Wandering");
-                        EDC.enemyData[i].Wander(EDC.enemies[i], EDC.enemyData[i].agent);
+                        //Debug.Log(EDC.enemies[i] + "is pursuing");
+                        EDC.enemyData[i].Pursue(target, EDC.enemies[i], EDC.enemyData[i].moveSpeed, playerControl.playerData.walkSpeed, EDC.enemyData[i].agent, playerControl);                       
                         break;
                     case 3:
                         //Debug.Log(EDC.enemies[i] + "is Hiding");
@@ -57,38 +59,55 @@ public class EnemyManager : MonoBehaviour
        
     }
 
-    void ManageEnemyBehavior()
+
+
+    private IEnumerator Wandering(EnemyData ED, GameObject EGO)
+    {
+        ED.Wander(EGO, ED.agent);
+        yield return new WaitForSeconds(10.0f);
+        if (ED.logicID == 1)
+        {
+            ED.logicID = 0;
+        }
+    }
+
+    private IEnumerator Scanning(EnemyData ED,GameObject EGO)
+    {
+        ED.Scan(EGO, ED.newRoT, ED.rotateDur, ED.isRotating);
+        yield return new WaitForSeconds(ED.rotateDur);
+        //Debug.Log("Rotating Counter-clockwise");
+        ED.Scan(EGO,ED.reverseRoT, ED.rotateDur,ED.isRotating);
+        yield return new WaitForSeconds(ED.rotateDur);
+        ED.isRotating = false;
+        if (ED.isRotating == false)
+        {
+            ED.logicID = 1;
+        }
+        //
+        //Debug.Log("Stopping Rotations");
+    }
+    void ManageEnemyHP()
     {
         for (int i = 0; i < EDC.enemies.Count; i++)
         {
             if (EDC.enemyData[i] != null)
             {
-                
-            }
-        }
-    }
-    void ManageEnemyHP()
-    {
-        
-        foreach (GameObject enemy in EDC.enemies)
-        {
-            enemyData = enemy.GetComponent<EnemyData>();
-            if (enemyData.health <= 0)
-            {
-                EDC.removeEnemies.Add(enemy);
-                EDC.removeEnemyData.Add(enemyData);
-                EDC.enemyCount--;
-            }
+                if (EDC.enemyData[i].health <= 0)
+                {
+                    EDC.removeEnemies.Add(EDC.enemies[i]);
+                    EDC.removeEnemyData.Add(EDC.enemyData[i]);
+                    EDC.enemyCount--;
+                }
+                else if (EDC.enemyData[i].health > 0 && EDC.enemyData[i].health <= EDC.enemyData[i].hpThreshold)
+                {
+                    EDC.enemyData[i].logicID = 3;
+                }
+                else if (EDC.enemyData[i].health > EDC.enemyData[i].hpThreshold)
+                {
 
-            else if (enemyData.health > 0 && enemyData.health <= enemyData.hpThreshold)
-            {
-                enemyData.logicID = 3;
+                    
+                }
             }
-            else if (enemyData.health > enemyData.hpThreshold)
-            {
-                ManageEnemyBehavior(); 
-            }
-             
         }
 
         foreach (GameObject enemy in EDC.removeEnemies)

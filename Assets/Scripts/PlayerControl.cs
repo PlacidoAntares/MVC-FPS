@@ -99,9 +99,9 @@ public class PlayerControl : MonoBehaviour
             {
                 Debug.Log("Enemy Hit");
                 playerData.targetData = playerData.hit.collider.gameObject.GetComponent<EnemyData>();
-                if (playerData.targetData.health > playerData.targetData.hpThreshold && playerData.targetData.logicID != 1)
+                if (playerData.targetData.health > playerData.targetData.hpThreshold && playerData.targetData.logicID != 2)
                 {
-                    playerData.targetData.logicID = 1;
+                    playerData.targetData.logicID = 2;
                     Debug.Log(playerData.hit.collider.gameObject.name + "is now pursuing");
                 }
                

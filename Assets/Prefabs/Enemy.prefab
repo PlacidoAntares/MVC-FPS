@@ -212,9 +212,9 @@ MonoBehaviour:
   visDist: 20
   visAngle: 30
   detectRange: 10
-  rotateClockwise: 0
-  rotateAngleAmt: 90
-  rotateDur: 5
+  isRotating: 0
+  rotateAngleAmt: 70
+  rotateDur: 15
   newRoT: {x: 0, y: 0, z: 0, w: 0}
   reverseRoT: {x: 0, y: 0, z: 0, w: 0}
 --- !u!136 &7104582226205805721

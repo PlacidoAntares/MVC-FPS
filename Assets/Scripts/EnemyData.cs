@@ -16,8 +16,7 @@ public class EnemyData : MonoBehaviour
     public float visDist = 20.0f;
     public float visAngle = 30.0f;
     public float detectRange = 10.0f;
-    public bool rotateClockwise;
-
+    public bool isRotating;
     public float rotateAngleAmt;
     public float rotateDur;
     public Quaternion newRoT;
@@ -32,7 +31,7 @@ public class EnemyData : MonoBehaviour
         EDC.enemies.Add(this.gameObject);
         EDC.enemyData.Add(this);
         newRoT =Quaternion.Euler(new Vector3(0,rotateAngleAmt,0));
-        reverseRoT = Quaternion.Euler(new Vector3(0, 0, 0));
+        reverseRoT = Quaternion.Euler(new Vector3(0, -rotateAngleAmt, 0));
     }
 
     public void Seek(Vector3 location, NavMeshAgent agent)
@@ -111,18 +110,16 @@ public class EnemyData : MonoBehaviour
         Seek(info.point + chosenDir.normalized * 5,agent);
     }
 
-    public void Scan(GameObject thisObj,Quaternion newRoT,Quaternion reverseRoT,float rotDur)
+    public void Scan(GameObject thisObj,Quaternion newRoT,float rotDur,bool isRotating)
     {
-            
-        rotateObject(thisObj, newRoT, rotDur);
-        RotateDur(rotDur);
-        reverseRotation(thisObj, reverseRoT, rotDur);
+        if (isRotating == true)
+        {
+            rotateObject(thisObj, newRoT, rotDur);
+        }
+
     }
 
-    IEnumerator RotateDur(float rotateDur)
-    {
-        yield return new WaitForSeconds(rotateDur);
-    }
+    
     void rotateObject(GameObject objToRotate, Quaternion newRoT, float duration)
     {
         Quaternion currentRoT = objToRotate.transform.rotation;
